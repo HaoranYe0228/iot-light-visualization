@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>IoT Light Visualization</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+
+<body style="background:black; color:white; text-align:center;">
+
+<h1>Light Sensor Visualization</h1>
+<h2 id="value">Light: --</h2>
+
+<canvas id="ring" width="400" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("ring");
+const ctx = canvas.getContext("2d");
+
+// ===== HiveMQ WebSocket =====
+const client = mqtt.connect("wss://89f0dde8dd6d4b4d849a7518059425ac.s1.eu.hivemq.cloud:8884/mqtt", {
+  username: "Haoran",
+  password: "Yehaoran1995"
+});
+
+client.on("connect", () => {
+  console.log("Connected");
+  client.subscribe("esp32/light");
+});
+
+// ===== 灯环参数 =====
+const numLEDs = 16;
+let brightness = 0;
+
+function drawRing() {
+  ctx.clearRect(0, 0, 400, 400);
+
+  let centerX = 200;
+  let centerY = 200;
+  let radius = 120;
+
+  for (let i = 0; i < numLEDs; i++) {
+    let angle = (i / numLEDs) * Math.PI * 2;
+
+    let x = centerX + radius * Math.cos(angle);
+    let y = centerY + radius * Math.sin(angle);
+
+    let b = brightness / 255;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI * 2);
+
+    ctx.fillStyle = `rgba(0,255,200,${b})`;
+    ctx.fill();
+  }
+}
+
+// ===== 接收 MQTT 数据 =====
+client.on("message", (topic, message) => {
+  let data = JSON.parse(message.toString());
+
+  let light = data.light;
+
+  document.getElementById("value").innerText = "Light: " + light;
+
+  // 映射亮度（和ESP32一致）
+  brightness = 255 - (light / 4095) * 255;
+
+  drawRing();
+});
+</script>
+
+</body>
+</html>
