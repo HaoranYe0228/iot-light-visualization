@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Light Visualization</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="topbar">
+      <div>
+        <h1>Light Monitor</h1>
+        <p>ESP32 real-time dashboard</p>
+      </div>
+      <div id="statusPill" class="status-pill">Connecting</div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-label">Current Light</div>
+      <div id="value" class="hero-value">--</div>
+      <p id="levelText" class="hero-subtitle">Waiting for sensor data</p>
+
+      <div class="ring-wrap">
+        <canvas id="ring" width="400" height="400"></canvas>
+        <div class="ring-center">
+          <strong id="brightnessValue">0%</strong>
+          <span>Brightness</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <div class="label">Sensor Raw</div>
+        <div id="rawValue" class="value">--</div>
+      </article>
+      <article class="stat-card">
+        <div class="label">Light State</div>
+        <div id="lightState" class="value">Unknown</div>
+      </article>
+    </section>
+
+    <section class="footer-card">
+      <div>
+        <div class="label">Device Status</div>
+        <p id="deviceMessage">MQTT broker not connected yet.</p>
+      </div>
+      <div id="signalDot" class="signal-dot"></div>
+    </section>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
