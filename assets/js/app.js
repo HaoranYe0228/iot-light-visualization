@@ -10,9 +10,9 @@ const statusPillEl = document.getElementById("statusPill");
 const signalDotEl = document.getElementById("signalDot");
 
 const mqttConfig = {
-  url: "wss://89f0dde8dd6d4b4d849a7518059425ac.s1.eu.hivemq.cloud:8884/mqtt",
-  username: "Haoran",
-  password: "Yehaoran1995",
+  url: "wss://b23c9b5e766544f3bb19c6caf96385b1.s1.eu.hivemq.cloud:8884/mqtt",
+  username: "Laikeyue",
+  password: "Lky072741",
   topic: "esp32/light"
 };
 
